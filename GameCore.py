@@ -34,6 +34,8 @@ class GameCore:
         
         #Non-Core optional display assets
         if display:
+            pygame.display.set_caption('Snake Game')
+            self.clock = pygame.time.Clock()
             self.window = pygame.display.set_mode(self.window_size)
             self.window.fill(Color.blue_outline)
             self.window.fill(Color.black, self.playarea_rect)
@@ -93,6 +95,21 @@ class GameCore:
             self.text = self.font.render(f"Length: {self.snake.length}", True, Color.white)
 
     def update_game_state(self):
+        self.clock.tick(12)
+
+        self.check_events()
+
+        if self.check_snake_collision():
+            self.trigger_death()
+            return False
+
+        if self.check_wall_collision():
+            self.trigger_death()
+            return False
+
+        if self.check_apple_collision():
+            self.move_apple()
+
         self.snake.move()
 
         if self.display_on:
@@ -102,4 +119,6 @@ class GameCore:
             self.snake.show(self.window)
             self.apple.show(self.window)
             pygame.display.flip()
+
+        return True
 
