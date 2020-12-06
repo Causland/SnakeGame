@@ -22,6 +22,7 @@ def check_events(snake):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+
         if event.type == pygame.KEYDOWN:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_UP] and snake.direction != Direction.down: snake.set_direction(Direction.up)
@@ -29,12 +30,10 @@ def check_events(snake):
             elif keys[pygame.K_RIGHT] and snake.direction != Direction.left: snake.set_direction(Direction.right)
             elif keys[pygame.K_LEFT] and snake.direction != Direction.right: snake.set_direction(Direction.left)
 
-
 def check_snake_collision(snake):
     if snake.parts[-1].collidelist(snake.parts[0:-1]) > -1:
         return True
     return False
-
 
 def check_wall_collision(snake, playarea):
     return not snake.parts[-1].colliderect(playarea)
@@ -77,6 +76,7 @@ while True:
 
     # Check for an event
     check_events(snake)
+
 
     # End game conditions
     if check_snake_collision(snake):
